@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.contrib.auth import logout
 from django.contrib.redirects.models import Redirect
@@ -161,7 +160,8 @@ class UpdateCacheMiddleware(object):
             response.content = "".join(parts)
             response["Content-Length"] = len(response.content)
             # Required to clear out user messages.
-            request._messages.update(response)
+            if hasattr(request, '_messages'):
+                request._messages.update(response)
         return response
 
 
